@@ -5,8 +5,6 @@ const inputFields = document.querySelectorAll('.new-book');
 const cancelAddBookBtn = document.querySelector('#cancel');
 const submitNewBookBtn = document.querySelector('#submit');
 
-
-
 const books = [];
 
 function Book(title, author, pages, haveRead) {
@@ -21,7 +19,30 @@ function handleNewBookSubmission(e) {
   let inputFieldValues = getCurrentInputValues()
   books.push(new Book(...inputFieldValues))
   hideAddBookModal()
-  console.log(books);
+  
+  if (books.length == 0) {
+    return
+  } else {
+    displayBooks()
+  }
+}
+
+function displayBooks() {
+
+  console.log('new book');
+  let newCard = document.createElement('div');
+
+  newCard.innerHTML = `
+    <div class="card-header">${books[books.length - 1].title}</div>
+    <div class="info-container">
+      <p>Author: ${books[books.length -1].author}</p>
+      <p>Length: ${books[books.length - 1].pages} pages</p>
+      <p>${books[books.length - 1].haveRead ? 'Has read' : 'To read'}</p>
+    </div>`
+
+  newCard.classList.add('card')
+
+  document.querySelector('.card-container').appendChild(newCard);
 }
 
 function getCurrentInputValues() {
@@ -56,3 +77,21 @@ cancelAddBookBtn.addEventListener('click', (e) => {
   e.preventDefault();
   hideAddBookModal();
 });
+
+// let newCard = document.createElement('div');
+
+// newCard.innerHTML = `
+//   <div class="card-header">${books[1].title}</div>
+//   <div class="info-container">
+//     <p>Author: ${books[1].author}</p>
+//     <p>Length: ${books[1].pages} pages</p>
+//     <p>${books[1].haveRead ? 'Has read' : 'To read'}</p>
+//   </div>
+
+  
+// `
+// newCard.classList.add('card')
+
+
+
+// document.querySelector('.card-container').appendChild(newCard);
