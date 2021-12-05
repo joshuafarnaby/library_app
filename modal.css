@@ -1,25 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: #fefefe;
-  font-family: 'Poppins', Arial, sans-serif;
-  height: 100vh;
-  position: relative;
-}
-
 .modal-container {
+  display: none;
+  z-index: 0;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.3);
   top: 0;
   height: 100%;
   width: 100%;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
 }
