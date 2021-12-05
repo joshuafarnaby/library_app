@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="modal.css">
   <script src="script.js" defer></script>
   <title>library</title>
 </head>
@@ -15,16 +15,20 @@
       <form action="" class="new-book-form">
         <div class="header-container">
           <h3 class="form-header">new book</h3>
+          <!-- <button class="cancel-input">X</button> -->
         </div>
-        <input type="text" name="book-title" id="book-title" placeholder="book title">
-        <input type="text" name="book-author" id="book-author" placeholder="book author">
-        <input type="text" name="book-pages" id="book-pages" placeholder="number of pages">
+        <input type="text" name="book-title" id="book-title" placeholder="book title" class="new-book">
+        <input type="text" name="book-author" id="book-author" placeholder="book author" class="new-book">
+        <input type="text" name="book-pages" id="book-pages" placeholder="number of pages" class="new-book">
         <div class="range-container">
           <p>not read</p>
-            <input type="range" min="0" max="1" >
+          <input type="range" min="0" max="1" >
           <p>read</p>
         </div>
-        <button type="submit">add book</button>
+        <div class="form-buttons">
+          <button type="submit" id="submit">add book</button>
+          <button id="cancel">cancel</button>
+        </div>
       </form>
     </div>
   </div>
