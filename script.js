@@ -39,7 +39,10 @@ function generateNewBookCard(bookObj) {
   newCard.setAttribute('data-index', dataIndex)
 
   newCard.innerHTML = `
-    <div class="card-header">${bookTitle}</div>
+    <div class="card-header">
+      <button class="remove-book-btn">X</button>
+      <h3>${bookTitle}</h3>
+    </div>
     <div class="info-container">
       <p>Author: ${bookAuthor}</p>
       <p>Length: ${bookPages} pages</p>
@@ -99,5 +102,28 @@ document.addEventListener('click', (e) => {
     bookToEdit.haveRead = !bookToEdit.haveRead;
     e.target.previousElementSibling.textContent = bookToEdit.haveRead ? 'Has read' : 'Not read'
     e.target.textContent = bookToEdit.haveRead ? 'not read' : 'read'
+  }
+})
+
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.classList.contains('remove-book-btn')) {
+    let cardToRemove = e.target.parentElement.parentElement;
+    let index = cardToRemove.getAttribute('data-index');
+
+    document.querySelector('.card-container').removeChild(cardToRemove);
+    books.splice(index, 1);
+
+    console.log(cardToRemove);
+    console.log(index);
+    console.log(books);
+
+    let nextElement = document.querySelector('.card-container').firstElementChild
+    
+    books.forEach((book, idx) => {
+      if (!nextElement) return;
+
+      nextElement.setAttribute('data-index', idx)
+      nextElement = nextElement.nextElementSibling;
+    })
   }
 })
