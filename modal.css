@@ -30,7 +30,7 @@
 }
 
 .header-container {
-  background-color: #106adf;
+  background-color: var(--blue);
   width: 100%;
   padding: 0 12px;
   border-top-left-radius: 10px;
@@ -87,7 +87,7 @@ input[type='range']::-webkit-slider-thumb {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: #106adf;
+  background-color: var(--blue);
 }
 
 .form-buttons {

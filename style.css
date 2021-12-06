@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+:root {
+  --blue: #3157a8;
+}
+
 body {
   background-color: #fefefe;
   font-family: 'Poppins', Arial, sans-serif;
@@ -21,7 +25,7 @@ body {
 }
 
 .header {
-  background-color: #106adf;
+  background-color: var(--blue);
   width: 100%;
   padding: 12px;
   display: flex;
@@ -34,7 +38,7 @@ body {
 
 .header button {
   color: #fefefe;
-  background-color: #106adf;
+  background-color: var(--blue);
   border-radius: 10px;
   padding: 2px 6px;
   border: 1px solid #fefefe;
@@ -54,14 +58,15 @@ body {
 }
 
 .card {
-  border: 1px solid #106adf;
+  border: 1px solid var(--blue);
   border-radius: 10px;
   /* height: 300px; */
   width: 300px;
+  color: #444;
 }
 
 .card-header {
-  background-color: #106adf;
+  background-color: var(--blue);
   border-top-left-radius: 9px;
   border-top-right-radius: 9px;
   color: #fefefe;

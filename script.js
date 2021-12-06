@@ -28,8 +28,6 @@ function handleNewBookSubmission(e) {
 }
 
 function displayBooks() {
-
-  console.log('new book');
   let newCard = document.createElement('div');
 
   newCard.innerHTML = `
@@ -77,21 +75,3 @@ cancelAddBookBtn.addEventListener('click', (e) => {
   e.preventDefault();
   hideAddBookModal();
 });
-
-// let newCard = document.createElement('div');
-
-// newCard.innerHTML = `
-//   <div class="card-header">${books[1].title}</div>
-//   <div class="info-container">
-//     <p>Author: ${books[1].author}</p>
-//     <p>Length: ${books[1].pages} pages</p>
-//     <p>${books[1].haveRead ? 'Has read' : 'To read'}</p>
-//   </div>
-
-  
-// `
-// newCard.classList.add('card')
-
-
-
-// document.querySelector('.card-container').appendChild(newCard);
