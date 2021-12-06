@@ -16,31 +16,46 @@ function Book(title, author, pages, haveRead) {
 
 function handleNewBookSubmission(e) {
   e.preventDefault();
+
   let inputFieldValues = getCurrentInputValues()
-  books.push(new Book(...inputFieldValues))
+  let newBook = new Book(...inputFieldValues)
+
+  books.push(newBook)
+  displayBook(newBook)
+
   hideAddBookModal()
-  
-  if (books.length == 0) {
-    return
-  } else {
-    displayBooks()
-  }
 }
 
-function displayBooks() {
-  let newCard = document.createElement('div');
+function generateNewBookCard(bookObj) {
+  let bookTitle = bookObj.title ? bookObj.title : 'unknown';
+  let bookAuthor = bookObj.author ? bookObj.author : 'unknown';
+  let bookPages = bookObj.pages ? bookObj.pages : 'unknown';
+  let readStatus = bookObj.haveRead ? 'Has read' : 'To read';
+
+  let dataIndex = books.indexOf(bookObj)
+
+  let newCard = document.createElement('div')
+  newCard.classList.add('card');
+  newCard.setAttribute('data-index', dataIndex)
 
   newCard.innerHTML = `
-    <div class="card-header">${books[books.length - 1].title}</div>
+    <div class="card-header">${bookTitle}</div>
     <div class="info-container">
-      <p>Author: ${books[books.length -1].author}</p>
-      <p>Length: ${books[books.length - 1].pages} pages</p>
-      <p>${books[books.length - 1].haveRead ? 'Has read' : 'To read'}</p>
+      <p>Author: ${bookAuthor}</p>
+      <p>Length: ${bookPages} pages</p>
+      <div class="has-read-container">
+        <p>${readStatus}</p>
+        <button class="change-read-status">${bookObj.haveRead ? 'not read' : 'read'}</button>
+      </div>
     </div>`
 
-  newCard.classList.add('card')
+  return newCard
+}
 
-  document.querySelector('.card-container').appendChild(newCard);
+function displayBook(bookObj) {
+  let newBookCard = generateNewBookCard(bookObj)
+
+  document.querySelector('.card-container').appendChild(newBookCard)
 }
 
 function getCurrentInputValues() {
@@ -69,9 +84,20 @@ function hideAddBookModal() {
   addBookModal.style.display = 'none';
 }
 
-addBookBtn.addEventListener('click', showAddBookModal);
 submitNewBookBtn.addEventListener('click', handleNewBookSubmission);
+addBookBtn.addEventListener('click', showAddBookModal);
 cancelAddBookBtn.addEventListener('click', (e) => {
   e.preventDefault();
   hideAddBookModal();
 });
+
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.classList.contains('change-read-status')) {
+    let index = e.target.parentElement.parentElement.parentElement.getAttribute('data-index');
+
+    let bookToEdit = books[index];
+    bookToEdit.haveRead = !bookToEdit.haveRead;
+    e.target.previousElementSibling.textContent = bookToEdit.haveRead ? 'Has read' : 'Not read'
+    e.target.textContent = bookToEdit.haveRead ? 'not read' : 'read'
+  }
+})

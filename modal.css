@@ -50,7 +50,7 @@
   margin-top: 20px;
   font-size: 16px;
   font-family: inherit;
-  border: 1px solid #444;
+  border: 1px solid var(--blue);
   border-radius: 10px;
   padding: 8px;
   color: #444;
@@ -70,6 +70,7 @@
   align-items: center;
   gap: 12px;
   margin-top: 20px;
+  color: var(--blue);
 }
 
 input[type='range'] {
@@ -101,8 +102,8 @@ input[type='range']::-webkit-slider-thumb {
   width: 80%;
   font-size: 16px;
   font-family: inherit;
-  border: 1px solid #444;
-  color: #444;
+  border: 1px solid var(--blue);
+  color: var(--blue);
   border-radius: 10px;
   margin: 15px 0 20px 0;
   background-color: #fefefe;

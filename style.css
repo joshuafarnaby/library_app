@@ -8,6 +8,7 @@
 
 :root {
   --blue: #3157a8;
+  --red: #fb5656;
 }
 
 body {
@@ -44,7 +45,8 @@ body {
   border: 1px solid #fefefe;
 }
 
-.header button:hover {
+.header button:hover,
+.has-read-container button:hover {
   transform: scale(1.02);
   cursor: pointer;
 }
@@ -77,4 +79,18 @@ body {
 
 .info-container {
   padding: 8px;
+}
+
+.has-read-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.has-read-container button {
+  padding: 2px 4px;
+  background-color: #fefefe;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  border-radius: 8px;
 }
