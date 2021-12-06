@@ -7,6 +7,19 @@ const submitNewBookBtn = document.querySelector('#submit');
 
 const books = [];
 
+window.onload = function() {
+  let index = 0;
+  let item;
+
+  while(window.localStorage.getItem(index)) {
+    item = window.localStorage.getItem(index);
+    books.push(JSON.parse(item));
+    index++;
+  }
+  
+  books.forEach(book => displayBookCard(book))
+}
+
 function Book(title, author, pages, haveRead) {
   this.title = title;
   this.author = author;
@@ -22,7 +35,7 @@ function handleNewBookSubmission(e) {
 
   books.push(newBook);
   displayBookCard(newBook);
-
+  window.localStorage.setItem(books.indexOf(newBook), JSON.stringify(newBook))
   hideAddBookModal();
 }
 
@@ -35,15 +48,17 @@ function displayBookCard(bookObj) {
 function changeReadStatus(index, textToEdit, buttonToEdit) {
   let bookToEdit = books[index];
   bookToEdit.haveRead = !bookToEdit.haveRead;
-  textToEdit.textContent = bookToEdit.haveRead ? 'Has read' : 'Not read';
-  buttonToEdit.textContent = bookToEdit.haveRead ? 'not read' : 'read';
+  textToEdit.textContent = bookToEdit.haveRead ? 'Read' : 'Unread';
+  buttonToEdit.textContent = bookToEdit.haveRead ? 'unread' : 'read';
+
+  window.localStorage.setItem(index, JSON.stringify(bookToEdit));
 }
 
 function generateNewBookCard(bookObj) {
   let bookTitle = bookObj.title ? bookObj.title : 'unknown';
   let bookAuthor = bookObj.author ? bookObj.author : 'unknown';
   let bookPages = bookObj.pages ? bookObj.pages : 'unknown';
-  let readStatus = bookObj.haveRead ? 'Has read' : 'To read';
+  let readStatus = bookObj.haveRead ? 'Read' : 'Unread';
 
   let dataIndex = books.indexOf(bookObj)
 
@@ -61,11 +76,22 @@ function generateNewBookCard(bookObj) {
       <p>Length: ${bookPages} pages</p>
       <div class="has-read-container">
         <p>${readStatus}</p>
-        <button class="change-read-status">${bookObj.haveRead ? 'not read' : 'read'}</button>
+        <button class="change-read-status">${bookObj.haveRead ? 'unread' : 'read'}</button>
       </div>
     </div>`
 
   return newCard
+}
+
+function updateDataIndexAttributes() {
+  let nextElement = document.querySelector('.card-container').firstElementChild
+    
+  books.forEach((book, idx) => {
+    if (!nextElement) return;
+
+    nextElement.setAttribute('data-index', idx)
+    nextElement = nextElement.nextElementSibling;
+  })
 }
 
 function getCurrentInputValues() {
@@ -94,6 +120,12 @@ function hideAddBookModal(e = null) {
   addBookModal.style.display = 'none';
 }
 
+function updateLocalStorage() {
+  window.localStorage.clear();
+
+  books.forEach((book, idx) => window.localStorage.setItem(idx, JSON.stringify(book)));
+}
+
 submitNewBookBtn.addEventListener('click', handleNewBookSubmission);
 addBookBtn.addEventListener('click', showAddBookModal);
 cancelAddBookBtn.addEventListener('click', hideAddBookModal);
@@ -116,13 +148,7 @@ document.addEventListener('click', (e) => {
     document.querySelector('.card-container').removeChild(cardToRemove);
     books.splice(index, 1);
 
-    let nextElement = document.querySelector('.card-container').firstElementChild
-    
-    books.forEach((book, idx) => {
-      if (!nextElement) return;
-
-      nextElement.setAttribute('data-index', idx)
-      nextElement = nextElement.nextElementSibling;
-    })
+    updateDataIndexAttributes();
+    updateLocalStorage();
   }
 })
