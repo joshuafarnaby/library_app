@@ -17,13 +17,26 @@ function Book(title, author, pages, haveRead) {
 function handleNewBookSubmission(e) {
   e.preventDefault();
 
-  let inputFieldValues = getCurrentInputValues()
-  let newBook = new Book(...inputFieldValues)
+  let inputFieldValues = getCurrentInputValues();
+  let newBook = new Book(...inputFieldValues);
 
-  books.push(newBook)
-  displayBook(newBook)
+  books.push(newBook);
+  displayBookCard(newBook);
 
-  hideAddBookModal()
+  hideAddBookModal();
+}
+
+function displayBookCard(bookObj) {
+  let newBookCard = generateNewBookCard(bookObj)
+
+  document.querySelector('.card-container').appendChild(newBookCard)
+}
+
+function changeReadStatus(index, textToEdit, buttonToEdit) {
+  let bookToEdit = books[index];
+  bookToEdit.haveRead = !bookToEdit.haveRead;
+  textToEdit.textContent = bookToEdit.haveRead ? 'Has read' : 'Not read';
+  buttonToEdit.textContent = bookToEdit.haveRead ? 'not read' : 'read';
 }
 
 function generateNewBookCard(bookObj) {
@@ -55,16 +68,8 @@ function generateNewBookCard(bookObj) {
   return newCard
 }
 
-function displayBook(bookObj) {
-  let newBookCard = generateNewBookCard(bookObj)
-
-  document.querySelector('.card-container').appendChild(newBookCard)
-}
-
 function getCurrentInputValues() {
-  let values;
-
-  values = [...inputFields].map(field => {
+  let values = [...inputFields].map(field => {
     if (field.type == "range") {
       return field.value == '1' ? false : true
     } else {
@@ -79,29 +84,27 @@ function showAddBookModal() {
   addBookModal.style.display = 'flex';
 }
 
-function hideAddBookModal() {
+function hideAddBookModal(e = null) {
+  if (e) e.preventDefault();
+
   inputFields.forEach(input => {
     if (input.type == 'text') input.value = '';
-  })
+  });
 
   addBookModal.style.display = 'none';
 }
 
 submitNewBookBtn.addEventListener('click', handleNewBookSubmission);
 addBookBtn.addEventListener('click', showAddBookModal);
-cancelAddBookBtn.addEventListener('click', (e) => {
-  e.preventDefault();
-  hideAddBookModal();
-});
+cancelAddBookBtn.addEventListener('click', hideAddBookModal);
 
 document.addEventListener('click', (e) => {
   if (e.target && e.target.classList.contains('change-read-status')) {
     let index = e.target.parentElement.parentElement.parentElement.getAttribute('data-index');
+    let textToEdit = e.target.previousElementSibling;
+    let buttonToEdit = e.target;
 
-    let bookToEdit = books[index];
-    bookToEdit.haveRead = !bookToEdit.haveRead;
-    e.target.previousElementSibling.textContent = bookToEdit.haveRead ? 'Has read' : 'Not read'
-    e.target.textContent = bookToEdit.haveRead ? 'not read' : 'read'
+    changeReadStatus(index, textToEdit, buttonToEdit);
   }
 })
 
@@ -112,10 +115,6 @@ document.addEventListener('click', (e) => {
 
     document.querySelector('.card-container').removeChild(cardToRemove);
     books.splice(index, 1);
-
-    console.log(cardToRemove);
-    console.log(index);
-    console.log(books);
 
     let nextElement = document.querySelector('.card-container').firstElementChild
     
