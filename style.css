@@ -57,6 +57,7 @@ body {
   display: flex;
   gap: 12px;
   flex-flow: row wrap;
+  justify-content: center;
   /* background: #ddd; */
 }
 
